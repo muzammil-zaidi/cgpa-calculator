@@ -194,7 +194,8 @@ void studentPortal(Student& student) {
             case 5: cout << "===========================================\nExiting... Thank you!\nDeveloped By Muzammil Zaidi\n"; break;
             default: cout << "Invalid option.\n";
         }
-    } while (option != 5);
+    } 
+    while (option != 5);
 }
 
 // Main entry point
