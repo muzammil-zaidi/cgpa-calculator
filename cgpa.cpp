@@ -134,7 +134,8 @@ void deleteCourse(vector<Course>& courses) {
     if (choice >= 1 && choice <= courses.size()) {
         courses.erase(courses.begin() + choice - 1);
         cout << "? Course Deleted Successfully!\n";
-    } else {
+    } 
+    else {
         cout << "Invalid selection.\n";
     }
 }
