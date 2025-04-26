@@ -110,7 +110,8 @@ void updateCourse(vector<Course>& courses) {
         cout << "Enter New Marks: ";
         cin >> courses[choice - 1].marks;
         cout << "Course Updated Successfully!\n";
-    } else {
+    } 
+    else {
         cout << "Invalid selection.\n";
     }
 }
