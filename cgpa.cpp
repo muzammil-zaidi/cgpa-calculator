@@ -58,7 +58,6 @@ pair<string, float> getGradeAndPoint(float marks) {
 	}
 }
 
-// Calculates GPA from the list of courses
 float calculateGPA(vector<Course>& courses) {
     float totalPoints = 0, totalCredits = 0;
     for (auto& course : courses) {
