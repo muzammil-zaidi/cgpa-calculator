@@ -19,7 +19,6 @@ struct Student {
     float GPA = 0.0;
 };
 
-// Converts marks to grade and grade points
 pair<string, float> getGradeAndPoint(float marks) {
     if (marks >= 90) {
 		return {"A+", 4.00};
