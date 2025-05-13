@@ -112,7 +112,6 @@ void updateCourse(vector<Course>& courses) {
     }
 }
 
-// Delete a course
 void deleteCourse(vector<Course>& courses) {
     if (courses.empty()) {
         cout << "\nNo courses to delete.\n";
