@@ -70,7 +70,6 @@ float calculateGPA(vector<Course>& courses) {
     return (totalCredits > 0) ? totalPoints / totalCredits : 0.0;
 }
 
-// Input a single course
 void inputCourse(vector<Course>& courses) {
     Course course;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
