@@ -135,7 +135,6 @@ void deleteCourse(vector<Course>& courses) {
     }
 }
 
-// Display GPA Report
 void showGPA(Student& student) {
     student.GPA = calculateGPA(student.courses);
 
