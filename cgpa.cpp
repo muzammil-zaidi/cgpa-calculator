@@ -83,7 +83,6 @@ void inputCourse(vector<Course>& courses) {
     cout << "Course Added Successfully!\n";
 }
 
-// Update existing course
 void updateCourse(vector<Course>& courses) {
     if (courses.empty()) {
         cout << "\nNo courses to update.\n";
