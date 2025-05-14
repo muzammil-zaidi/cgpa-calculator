@@ -191,7 +191,6 @@ void studentPortal(Student& student) {
     while (option != 5);
 }
 
-// Main entry point
 int main() {
     Student student;
     cout << "\n========== Welcome to GPA Calculator ==========\n";
