@@ -167,7 +167,6 @@ void showGPA(Student& student) {
     cout << "==========================================\n";
 }
 
-// Student dashboard
 void studentPortal(Student& student) {
     int option;
     do {
