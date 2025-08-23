@@ -1,116 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GPA Calculator</title>
-    <link rel="stylesheet" href="App.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course GPA Calculator</title>
+  <link rel="stylesheet" href="App.css">
 </head>
 <body>
-  <div class="container">
-    <h1>GPA Calculator</h1>
-    <div class="form">
-      <input type="text" id="courseName" placeholder="Course Name">
-      <input type="number" id="creditHours" placeholder="Credit Hours">
-      <input type="number" id="marks" placeholder="Marks">
-      <button onclick="addCourse()">➕ Add Course</button>
-    </div>
+  <h1>Course GPA Calculator</h1>
+  
+  <form id="course-form">
+    <label for="courseName">Course Name:</label>
+    <input type="text" id="courseName" name="courseName" required />
+    
+    <label for="creditHours">Credit Hours:</label>
+    <input type="number" id="creditHours" name="creditHours" required />
+    
+    <label for="marks">Marks:</label>
+    <input type="number" id="marks" name="marks" required />
+    
+    <button type="submit">Add Course</button>
+  </form>
 
-    <table id="coursesTable">
-      <thead>
-        <tr>
-          <th>Course</th>
-          <th>Marks</th>
-          <th>Grade</th>
-          <th>Credit Hours</th>
-          <th>Grade Points</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+  <h2>Courses List</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Course</th>
+        <th>Credit Hours</th>
+        <th>Marks</th>
+        <th>Grade</th>
+        <th>Grade Points</th>
+      </tr>
+    </thead>
+    <tbody id="courses-table-body">
+      <!-- Rows will be added dynamically -->
+    </tbody>
+  </table>
 
-    <div id="gpaBox">Your GPA: <span>0.00</span></div>
+  <h3>Total GPA: <span id="total-gpa">0.00</span></h3>
 
-    <footer>
-      Developed by <b>Muzammil Zaidi</b> — Copyright © 2025 All Rights Reserved
-    </footer>
-  </div>
+  <footer>
+    <p>Developed by Muzammil Zaidi | Copyright 2025 All Rights Reserved</p>
+  </footer>
 
   <script>
-    let courses = [];
+    // JavaScript to make it functional
+    const form = document.getElementById('course-form');
+    const tableBody = document.getElementById('courses-table-body');
+    const totalGpaDisplay = document.getElementById('total-gpa');
+    const courses = [];
 
     function getGradeAndPoint(marks) {
-      if (marks >= 90) return { grade: "A+", point: 4.00 };
-      else if (marks >= 86) return { grade: "A", point: 4.00 };
-      else if (marks >= 82) return { grade: "A-", point: 3.67 };
-      else if (marks >= 78) return { grade: "B+", point: 3.33 };
-      else if (marks >= 74) return { grade: "B", point: 3.00 };
-      else if (marks >= 70) return { grade: "B-", point: 2.67 };
-      else if (marks >= 66) return { grade: "C+", point: 2.33 };
-      else if (marks >= 62) return { grade: "C", point: 2.00 };
-      else if (marks >= 58) return { grade: "C-", point: 1.67 };
-      else if (marks >= 54) return { grade: "D+", point: 1.33 };
-      else if (marks >= 50) return { grade: "D", point: 1.00 };
-      else return { grade: "F", point: 0.00 };
+      if (marks >= 85) return { grade: 'A', point: 4.0 };
+      if (marks >= 80) return { grade: 'A-', point: 3.7 };
+      if (marks >= 75) return { grade: 'B+', point: 3.3 };
+      if (marks >= 70) return { grade: 'B', point: 3.0 };
+      if (marks >= 65) return { grade: 'B-', point: 2.7 };
+      if (marks >= 60) return { grade: 'C+', point: 2.3 };
+      if (marks >= 55) return { grade: 'C', point: 2.0 };
+      if (marks >= 50) return { grade: 'D', point: 1.0 };
+      return { grade: 'F', point: 0.0 };
     }
 
-    function addCourse() {
-      const courseName = document.getElementById("courseName").value.trim();
-      const creditHours = document.getElementById("creditHours").value;
-      const marks = document.getElementById("marks").value;
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const courseName = document.getElementById('courseName').value;
+      const creditHours = parseFloat(document.getElementById('creditHours').value);
+      const marks = parseFloat(document.getElementById('marks').value);
 
-      if (!courseName || !creditHours || !marks) {
-        alert("Please fill all fields");
-        return;
-      }
+      const { grade, point } = getGradeAndPoint(marks);
+      courses.push({ courseName, creditHours, marks, grade, point });
+      
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${courseName}</td>
+        <td>${creditHours}</td>
+        <td>${marks}</td>
+        <td>${grade}</td>
+        <td>${point.toFixed(2)}</td>
+      `;
+      tableBody.appendChild(row);
 
-      const newCourse = {
-        name: courseName,
-        creditHours: parseInt(creditHours),
-        marks: parseFloat(marks)
-      };
+      const totalPoints = courses.reduce((sum, c) => sum + c.point * c.creditHours, 0);
+      const totalCredits = courses.reduce((sum, c) => sum + c.creditHours, 0);
+      const gpa = totalPoints / totalCredits;
+      totalGpaDisplay.textContent = gpa.toFixed(2);
 
-      courses.push(newCourse);
-      renderCourses();
-
-      document.getElementById("courseName").value = "";
-      document.getElementById("creditHours").value = "";
-      document.getElementById("marks").value = "";
-    }
-
-    function deleteCourse(index) {
-      courses.splice(index, 1);
-      renderCourses();
-    }
-
-    function renderCourses() {
-      const tbody = document.querySelector("#coursesTable tbody");
-      tbody.innerHTML = "";
-
-      let totalCredits = 0;
-      let totalPoints = 0;
-
-      courses.forEach((course, index) => {
-        const { grade, point } = getGradeAndPoint(course.marks);
-        totalCredits += course.creditHours;
-        totalPoints += point * course.creditHours;
-
-        const row = `
-          <tr>
-            <td>${course.name}</td>
-            <td>${course.marks}</td>
-            <td>${grade}</td>
-            <td>${course.creditHours}</td>
-            <td>${point.toFixed(2)}</td>
-            <td><button class="deleteBtn" onclick="deleteCourse(${index})">🗑 Delete</button></td>
-          </tr>
-        `;
-        tbody.innerHTML += row;
-      });
-
-      const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
-      document.querySelector("#gpaBox span").textContent = gpa;
-    }
+      form.reset();
+    });
   </script>
 </body>
 </html>
